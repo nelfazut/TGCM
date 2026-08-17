@@ -46,7 +46,7 @@ Pour lancer des dés explosifs, utilisez la commande `eX` à la place de `dX`. U
 ```
 ## Dés uniques
 
-Pour lancer des dés uniques, utilisez la commande `udX`. des dés uniques, c'est a dire qu'aucun double ne peut etre présend dans les résultats. exemple pour `3e6`:
+Pour lancer des dés uniques, utilisez la commande `udX`. des dés uniques, c'est a dire qu'aucun double ne peut etre présend dans les résultats. exemple pour `3ud6`:
 ```
 # 11
 1, 4, 6
