@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 from diceio.src.run_cmd import run_cmd
+import random
+import json
 description= "un bot pour lancer des dés"
 
 intents = discord.Intents.default()
@@ -8,10 +10,35 @@ intents.members = True
 intents.message_content = True
 prefix = "!"
 bot = commands.Bot(command_prefix=prefix, description=description, intents=intents, help_command=None)
-
-
+COUNTRIES = json.load(open("countries.json", "r"))
 with open("TOKEN.TXT", "r") as f:
     TOKEN = f.read()
+
+
+def tirage_lieu_aleatoire(fichier_json="countries.json"):
+    with open(fichier_json, 'r', encoding='utf-8') as f:
+        world_data = json.load(f)
+        
+    lieux = []
+    populations = []
+    
+    # 2. Préparer la liste des choix et des poids
+    for pays in world_data:
+        # Si le pays possède des régions détaillées
+        if pays.get("regions") and len(pays["regions"]) > 0:
+            for region in pays["regions"]:
+                # On formate "Pays (Région)"
+                lieux.append(f"{pays['country']} ({region['name']})")
+                populations.append(region["population"])
+        else:
+            # S'il n'y a pas de régions, on ajoute juste le pays
+            lieux.append(pays["country"])
+            populations.append(pays["population"])
+            
+    # 3. Tirage au sort avec probabilité proportionnelle à la population
+    resultat = random.choices(lieux, weights=populations, k=1)[0]
+    
+    return resultat
 
 @bot.listen()
 async def on_message(message):
@@ -19,6 +46,10 @@ async def on_message(message):
         command = message.content.removeprefix(prefix)
         if command.split(maxsplit=1)[0] not in [command.name for command in bot.commands]:
             await message.channel.send(f"```md\n{run_cmd(command, message.author.id)}```")
+@bot.command(name="pays")
+async def pays(ctx):
+  await ctx.send(f"```md\n# {tirage_lieu_aleatoire()}```")
+
 @bot.command(name="help")
 async def help(ctx):
     await ctx.send("""# Partie dés
