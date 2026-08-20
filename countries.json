@@ -241,5 +241,5 @@
   {"country": "Terres australes et antarctiques françaises", "population": 400, "regions": []},
   {"country": "Îles Pitcairn", "population": 47, "regions": []},
   {"country": "Géorgie du Sud-et-les îles Sandwich du Sud", "population": 30, "regions": []},
-  {"country": "Île Bouvet", "population": 0, "regions": []}
+  {"country": "Île Bouvet", "population": 1, "regions": []}
 ]
